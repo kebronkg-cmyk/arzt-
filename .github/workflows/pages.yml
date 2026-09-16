@@ -1,0 +1,44 @@
+# Veroeffentlicht den Branch als GitHub Pages, damit es eine oeffentlich
+# erreichbare Adresse gibt.
+#
+# Einmalige Voraussetzung: im Repository unter
+# Settings -> Pages -> "Build and deployment" -> Source auf "GitHub Actions"
+# stellen. Ohne diesen Schritt schlaegt der Lauf fehl, und zwar mit genau
+# diesem Hinweis.
+#
+# Achtung: die Seite ist dann fuer jeden erreichbar, der die Adresse kennt.
+# Alle Seiten tragen noindex, Suchmaschinen nehmen sie also nicht auf — das
+# unvollstaendige Impressum bleibt trotzdem ein rechtliches Risiko, solange
+# die Pflichtangaben fehlen.
+name: Pages
+
+on:
+  push:
+    branches: [claude/praxis-maasz-redesign-l2vn28]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Kein Build. Was im Repository liegt, wird ausgeliefert.
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
