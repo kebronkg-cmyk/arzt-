@@ -17,9 +17,9 @@
 <meta property="og:title" content="Praxis Dres. Maasz — Hausarztpraxis in München-Harthof">
 <meta property="og:description" content="Hausärztliche Praxis in der Dientzenhoferstraße 64, München.">
 
-<!-- Strukturierte Daten bewusst ohne openingHours: falsche Zeiten in
-     Suchergebnissen wären schlimmer als gar keine. Ergänzen, sobald die
-     Sprechzeiten bestätigt sind. -->
+<!-- Die Zeiten hier und in der sichtbaren Tabelle muessen uebereinstimmen.
+     Sie stammen aus uebereinstimmenden Verzeichnisangaben und sind von der
+     Praxis noch zu bestaetigen — Suchmaschinen uebernehmen sie direkt. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -35,7 +35,14 @@
   },
   "telephone": "+49-89-3112747",
   "faxNumber": "+49-89-3118283",
-  "email": "dr.norbert.maasz@dr-maasz.de"
+  "email": "dr.norbert.maasz@dr-maasz.de",
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday"], "opens": "08:30", "closes": "12:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday"], "opens": "16:00", "closes": "19:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday", "Thursday"], "opens": "08:30", "closes": "12:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday", "Thursday"], "opens": "16:00", "closes": "18:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday"], "opens": "08:30", "closes": "12:00" }
+  ]
 }
 </script>
 </head>
@@ -118,8 +125,8 @@
 
 <div class="draft">
   <div class="shell draft__inner">
-    <strong>Entwurf, nicht veröffentlichen.</strong> Sprechzeiten, Leistungen,
-    Teamangaben und die Rechtstexte sind noch nicht von der Praxis bestätigt.
+    <strong>Entwurf, nicht veröffentlichen.</strong> Leistungen, Teamangaben, Sprechzeiten
+    und die Rechtstexte sind noch nicht von der Praxis bestätigt.
     Alle offenen Stellen sind im Text markiert.
   </div>
 </div>
@@ -192,19 +199,12 @@
         <p class="label">Stand offen</p>
       </div>
       <div class="col-half reveal">
-        <p class="todo-block">
-          <span class="todo">Offen — Platzhalterzeiten</span>
-          Die folgenden Zeiten sind <strong>nicht bestätigt</strong> und dienen
-          nur der Darstellung. Der Status oben rechnet mit genau diesen Werten.
-          Sobald die echten Zeiten vorliegen, werden nur die
-          <code>&lt;time&gt;</code>-Elemente hier ersetzt.
-        </p>
         <table class="hours" data-hours style="margin-top:var(--space-m)">
-          <caption class="visually-hidden">Sprechzeiten (Platzhalter, unbestätigt)</caption>
+          <caption class="visually-hidden">Sprechzeiten</caption>
           <tbody>
             <tr data-day="1"><th scope="row">Montag</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time>, <time datetime="16:00">16:00</time>–<time datetime="19:00">19:00</time></td></tr>
             <tr data-day="2"><th scope="row">Dienstag</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time>, <time datetime="16:00">16:00</time>–<time datetime="18:00">18:00</time></td></tr>
-            <tr data-day="3"><th scope="row">Mittwoch</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time></td></tr>
+            <tr data-day="3"><th scope="row">Mittwoch</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time>, <time datetime="16:00">16:00</time>–<time datetime="18:00">18:00</time></td></tr>
             <tr data-day="4"><th scope="row">Donnerstag</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time>, <time datetime="16:00">16:00</time>–<time datetime="18:00">18:00</time></td></tr>
             <tr data-day="5"><th scope="row">Freitag</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time></td></tr>
             <tr data-day="6"><th scope="row">Samstag</th><td>geschlossen</td></tr>
@@ -215,6 +215,11 @@
       <div class="col-half reveal">
         <p class="prose">Termine nach telefonischer Vereinbarung unter
           <a href="tel:+49893112747">089 311 27 47</a>.</p>
+        <p class="field__hint" style="margin-top:var(--space-m)">
+          <span class="todo">Zu bestätigen</span>
+          Die Zeiten stammen aus übereinstimmenden Verzeichnisangaben, nicht
+          von der Praxis selbst. Vor dem Livegang bitte gegenlesen.
+        </p>
       </div>
     </div>
   </section>
