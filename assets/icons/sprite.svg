@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Eigenes Symbolset: 24er Raster, 1,5 px Kontur, runde Enden.
+     Strichfarbe und -staerke kommen aus der CSS-Klasse .icon. -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+  <symbol id="i-phone" viewBox="0 0 24 24">
+    <path d="M6.5 3.5h3L11 7.5 9 9a12 12 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5Z"/>
+  </symbol>
+
+  <symbol id="i-fax" viewBox="0 0 24 24">
+    <path d="M7 9V3.5h10V9"/>
+    <path d="M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/>
+    <path d="M7 14h10v6.5H7z"/>
+  </symbol>
+
+  <symbol id="i-mail" viewBox="0 0 24 24">
+    <path d="M3.5 5.5h17v13h-17z"/>
+    <path d="m3.5 6.5 8.5 6 8.5-6"/>
+  </symbol>
+
+  <symbol id="i-pin" viewBox="0 0 24 24">
+    <path d="M12 21.5s7-5.8 7-11.5a7 7 0 1 0-14 0c0 5.7 7 11.5 7 11.5Z"/>
+    <circle cx="12" cy="10" r="2.5"/>
+  </symbol>
+
+  <symbol id="i-clock" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.5"/>
+    <path d="M12 6.5V12l3.5 2"/>
+  </symbol>
+
+  <symbol id="i-tram" viewBox="0 0 24 24">
+    <path d="M6.5 3.5h11a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z"/>
+    <path d="M4.5 9.5h15M12 3.5v-2M8 20.5l1.5-4M16 20.5l-1.5-4"/>
+    <path d="M9 13h.01M15 13h.01"/>
+  </symbol>
+
+  <symbol id="i-stethoscope" viewBox="0 0 24 24">
+    <path d="M5.5 2.5v6a4.5 4.5 0 0 0 9 0v-6"/>
+    <path d="M3.5 2.5h3M13.5 2.5h3"/>
+    <path d="M10 13v2a4.5 4.5 0 0 0 9 0v-1"/>
+    <circle cx="19" cy="11.5" r="2.5"/>
+  </symbol>
+
+  <symbol id="i-pulse" viewBox="0 0 24 24">
+    <path d="M2.5 12h4l2.5-6.5 4 13L15.5 12h6"/>
+  </symbol>
+
+  <symbol id="i-shield" viewBox="0 0 24 24">
+    <path d="m12 2.5 7 2.8V12c0 4.6-3 7.7-7 9.3-4-1.6-7-4.7-7-9.3V5.3l7-2.8Z"/>
+    <path d="m9 11.8 2.2 2.2L15.2 10"/>
+  </symbol>
+
+  <symbol id="i-document" viewBox="0 0 24 24">
+    <path d="M6 2.5h7l5 5v14H6z"/>
+    <path d="M13 2.5v5h5"/>
+    <path d="M9 13h6M9 16.5h6"/>
+  </symbol>
+
+  <symbol id="i-syringe" viewBox="0 0 24 24">
+    <path d="m14.5 3.5 6 6M17.5 6.5 9 15l-3.5.5.5-3.5 8.5-8.5"/>
+    <path d="m5.5 15.5-3 3M12 7l3 3M9.5 9.5l3 3"/>
+  </symbol>
+
+  <symbol id="i-chevron" viewBox="0 0 24 24">
+    <path d="m6 9.5 6 6 6-6"/>
+  </symbol>
+
+  <symbol id="i-arrow" viewBox="0 0 24 24">
+    <path d="M3.5 12h16M13 5.5l6.5 6.5-6.5 6.5"/>
+  </symbol>
+
+</svg>

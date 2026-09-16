@@ -46,12 +46,16 @@ LIGHT = {
     "ink": (0.245, 0.038, 255), "ink-soft": (0.430, 0.035, 255),
     "brand": (0.409, 0.107, 250), "accent": (0.530, 0.130, 48),
     "line": (0.880, 0.010, 85),
+    "alert-bg": (0.245, 0.038, 255), "alert-fg": (0.974, 0.006, 85),
+    "alert-fg-soft": (0.780, 0.015, 85),
 }
 DARK = {
     "paper": (0.190, 0.012, 80), "paper-2": (0.240, 0.014, 78),
     "ink": (0.930, 0.010, 85), "ink-soft": (0.760, 0.015, 85),
     "brand": (0.730, 0.090, 250), "accent": (0.760, 0.120, 60),
     "line": (0.330, 0.014, 80),
+    "alert-bg": (0.285, 0.050, 258), "alert-fg": (0.960, 0.008, 85),
+    "alert-fg-soft": (0.800, 0.015, 85),
 }
 
 # (Vordergrund, Hintergrund, geforderte Mindestratio)
@@ -60,6 +64,15 @@ PAIRS = [
     ("ink-soft", "paper", AA_TEXT), ("brand", "paper", AA_TEXT),
     ("accent", "paper", AA_TEXT), ("paper", "ink", AA_TEXT),
     ("paper", "brand", AA_TEXT), ("line", "paper", 1.0),
+    # Signalflaeche: muss in BEIDEN Schemata tragen, nicht nur im Light Mode.
+    ("alert-fg", "alert-bg", AA_TEXT),
+    ("alert-fg-soft", "alert-bg", AA_TEXT),
+    # Flaeche gegen Seitengrund: AA fordert hier nichts — 3:1 gilt fuer
+    # bedeutungstragende Grafikelemente, nicht fuer einen Abschnittshintergrund,
+    # der seinen eigenen kontrastreichen Text traegt. Geprueft wird nur, dass
+    # die Flaechen ueberhaupt unterscheidbar sind; die Kante sichert
+    # zusaetzlich eine Linie in site.css.
+    ("alert-bg", "paper", 1.2),
 ]
 
 

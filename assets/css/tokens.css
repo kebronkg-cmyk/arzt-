@@ -1,0 +1,123 @@
+/* ==========================================================================
+   Designtokens — „Editorial Medical"
+   Farbwerte in OKLCH. Geprueft mit tools/palette-check.py gegen WCAG 2.2 AA.
+   ========================================================================== */
+
+/* --- Schriften, lokal. Keine Verbindung zu Dritten. --------------------- */
+
+@font-face {
+  font-family: "Newsreader";
+  src: url("../fonts/newsreader-var.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Archivo";
+  src: url("../fonts/archivo-var.woff2") format("woff2");
+  font-weight: 400 700;
+  font-stretch: 75% 100%;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* --- Farbe: Light ---------------------------------------------------- */
+  --paper: oklch(0.974 0.006 85);
+  --paper-2: oklch(0.954 0.009 80);
+  --ink: oklch(0.245 0.038 255);
+  --ink-soft: oklch(0.43 0.035 255);
+  --brand: oklch(0.409 0.107 250);
+  --accent: oklch(0.53 0.13 48);
+  --line: oklch(0.88 0.01 85);
+
+  /* Dunkle Signalflaeche (Notfallblock, Skip-Link).
+     Bewusst ein eigenes Paar: --ink kippt im Dark Mode ins Helle, --alert-bg
+     bleibt dunkel. Sonst stuende heller Text auf heller Flaeche. */
+  --alert-bg: oklch(0.245 0.038 255);
+  --alert-fg: oklch(0.974 0.006 85);
+  --alert-fg-soft: oklch(0.78 0.015 85);
+
+  /* Statusfarben. Gruen/Rot sind nie der alleinige Traeger einer
+     Information — es steht immer Text daneben. */
+  --status-open: oklch(0.52 0.12 150);
+  --status-closed: oklch(0.5 0.12 25);
+
+  /* --- Typografie ------------------------------------------------------ */
+  --font-display: "Newsreader", ui-serif, Georgia, "Times New Roman", serif;
+  --font-text: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+
+  /* Basis 18 px, nicht kleiner — die Praxis behandelt viele aeltere Menschen. */
+  --text-xs: 0.833rem;
+  --text-sm: 0.944rem;
+  --text-base: 1.125rem;
+  --text-md: clamp(1.25rem, 0.35vw + 1.18rem, 1.45rem);
+  --text-lg: clamp(1.5rem, 0.8vw + 1.34rem, 2rem);
+  --text-xl: clamp(1.9rem, 1.6vw + 1.58rem, 2.8rem);
+  --text-2xl: clamp(2.4rem, 3vw + 1.8rem, 4rem);
+  --text-3xl: clamp(2.9rem, 5.5vw + 1.8rem, 5.5rem);
+  --text-hero: clamp(2.75rem, 9vw, 6.5rem);
+
+  --leading-tight: 1.04;
+  --leading-snug: 1.2;
+  --leading-normal: 1.65;
+  --measure: 66ch;
+  --measure-narrow: 48ch;
+
+  /* --- Abstand: 8-px-Skala --------------------------------------------- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+  --space-3xl: clamp(5rem, 10vw, 9rem);
+
+  /* --- Raster ----------------------------------------------------------- */
+  --grid-max: 78rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --grid-gap: clamp(1rem, 2.2vw, 2rem);
+
+  /* --- Bewegung --------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --dur-slow: 700ms;
+
+  /* --- Kornstruktur ------------------------------------------------------ */
+
+  /* Feines Rauschen als Papieranmutung, inline erzeugt — kein Bild, kein
+     zusaetzlicher Request, wenige hundert Byte. */
+  --grain-src: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+
+  /* --- Sonstiges -------------------------------------------------------- */
+  --focus-ring: 2px;
+  --tap-min: 44px;
+  --radius: 2px; /* bewusst fast eckig — kein rounded-2xl */
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: oklch(0.19 0.012 80);
+    --paper-2: oklch(0.24 0.014 78);
+    --ink: oklch(0.93 0.01 85);
+    --ink-soft: oklch(0.76 0.015 85);
+    --brand: oklch(0.73 0.09 250);
+    --accent: oklch(0.76 0.12 60);
+    --line: oklch(0.33 0.014 80);
+
+    /* Im Dark Mode ein angehobenes Tiefblau statt einer grellen Flaeche. */
+    --alert-bg: oklch(0.285 0.05 258);
+    --alert-fg: oklch(0.96 0.008 85);
+    --alert-fg-soft: oklch(0.8 0.015 85);
+
+    --status-open: oklch(0.78 0.15 150);
+    --status-closed: oklch(0.72 0.14 25);
+  }
+}

@@ -1,0 +1,874 @@
+/* ==========================================================================
+   Basis, Raster, Zugaenglichkeit
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Anker landen unter dem Header statt darunter zu verschwinden. */
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- Satz ---------------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+p {
+  max-width: var(--measure);
+}
+
+a {
+  color: inherit;
+}
+
+strong {
+  font-weight: 600;
+}
+
+/* Marginalie / Kapitel-Label: die Breitenachse von Archivo statt
+   einer dritten Schrift. */
+.label {
+  font-family: var(--font-text);
+  font-size: var(--text-xs);
+  font-stretch: 85%;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.lead {
+  font-size: var(--text-md);
+  color: var(--ink-soft);
+  max-width: var(--measure-narrow);
+}
+
+/* --- Raster -------------------------------------------------------------- */
+
+.shell {
+  width: min(100% - var(--gutter) * 2, var(--grid-max));
+  margin-inline: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+/* Auf schmalen Geraeten faellt alles auf eine Spalte zurueck. Die
+   Spaltenklassen greifen erst ab 48rem — mobile first, nicht nachtraeglich
+   zurechtgebogen. */
+.grid > * {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 48rem) {
+  .col-text {
+    grid-column: 3 / 10;
+  }
+  .col-wide {
+    grid-column: 2 / 12;
+  }
+  .col-half {
+    grid-column: span 6;
+  }
+  .col-aside {
+    grid-column: 1 / 3;
+  }
+  /* Bricht bewusst aus dem Raster nach rechts heraus. */
+  .col-bleed-right {
+    grid-column: 7 / -1;
+    margin-right: calc(var(--gutter) * -1);
+  }
+}
+
+.section {
+  padding-block: var(--space-3xl);
+  border-top: 1px solid var(--line);
+}
+
+/* --- Kapitelziffer ------------------------------------------------------- */
+
+.chapter {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-s);
+  margin-bottom: var(--space-l);
+}
+
+.chapter__num {
+  font-family: var(--font-text);
+  font-size: var(--text-lg);
+  font-stretch: 112%;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* --- Zugaenglichkeit ----------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  left: var(--space-s);
+  top: var(--space-s);
+  z-index: 100;
+  padding: var(--space-xs) var(--space-s);
+  background: var(--alert-bg);
+  color: var(--alert-fg);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+:focus-visible {
+  outline: var(--focus-ring) solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Kornstruktur -------------------------------------------------------- */
+
+/* Feines Rauschen als Papieranmutung. Liegt ueber allem, faengt aber keine
+   Klicks ab und wird beim Drucken weggelassen. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.032;
+  mix-blend-mode: multiply;
+  background-image: var(--grain-src);
+  background-size: 180px 180px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .grain {
+    mix-blend-mode: screen;
+    opacity: 0.05;
+  }
+}
+
+/* ==========================================================================
+   Bausteine
+   ========================================================================== */
+
+/* --- Kopf ---------------------------------------------------------------- */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in oklab, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur) var(--ease-out);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+  padding-block: var(--header-pad, var(--space-m));
+  transition: padding-block var(--dur) var(--ease-out);
+}
+
+.header__mark {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.header__nav {
+  display: none;
+  gap: var(--space-m);
+  align-items: center;
+}
+
+@media (min-width: 56rem) {
+  .header__nav {
+    display: flex;
+  }
+}
+
+/* Der Kopf wird beim Scrollen kompakter und bekommt eine Haarlinie. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .header {
+      animation: header-compact linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 140px;
+    }
+  }
+}
+
+@keyframes header-compact {
+  from {
+    --header-pad: var(--space-m);
+    border-bottom-color: transparent;
+  }
+  to {
+    --header-pad: var(--space-2xs);
+    border-bottom-color: var(--line);
+  }
+}
+
+/* --- Verweise mit wachsender Unterstreichung ------------------------------ */
+
+.link {
+  position: relative;
+  text-decoration: none;
+  padding-block: 2px;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(var(--link-scale, 0));
+  transform-origin: left;
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.link:hover,
+.link:focus-visible {
+  --link-scale: 1;
+}
+
+.link[aria-current="page"] {
+  --link-scale: 1;
+  color: var(--brand);
+}
+
+/* Im Fliesstext ist der Verweis immer unterstrichen — Farbe allein
+   reicht als Unterscheidung nicht. */
+.prose a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.prose a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* --- Schaltflaechen ------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-height: var(--tap-min);
+  padding: var(--space-xs) var(--space-m);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.btn:hover {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.btn--ghost:hover {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* --- Symbole -------------------------------------------------------------- */
+
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* --- Aufmacher ------------------------------------------------------------ */
+
+.hero {
+  padding-block: clamp(3rem, 9vw, 7rem) var(--space-3xl);
+}
+
+.hero__title {
+  font-size: var(--text-hero);
+  letter-spacing: -0.03em;
+  max-width: 14ch;
+}
+
+.hero__title em {
+  font-style: italic;
+  color: var(--brand);
+  /* Die Kursive hat rechts wenig Fleisch — sonst klebt das naechste Wort. */
+  margin-right: 0.08em;
+}
+
+/* --- Praxisstatus --------------------------------------------------------- */
+
+.status {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-s) var(--space-m);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-2);
+}
+
+.status__dot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  margin-top: 0.55em;
+  border-radius: 50%;
+  background: var(--status-closed);
+  flex: none;
+}
+
+.status[data-state="open"] .status__dot {
+  background: var(--status-open);
+}
+
+/* Der Puls laeuft nur, wenn die Praxis wirklich offen ist. */
+.status[data-state="open"] .status__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: inherit;
+  animation: pulse 2.4s var(--ease-out) infinite;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+.status__label {
+  font-weight: 600;
+}
+
+.status__detail {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+/* --- Sprechzeiten --------------------------------------------------------- */
+
+.hours {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.hours th {
+  text-align: left;
+  font-weight: 400;
+  padding-block: var(--space-xs);
+}
+
+.hours td {
+  text-align: right;
+  padding-block: var(--space-xs);
+  padding-left: var(--space-s);
+  color: var(--ink-soft);
+}
+
+.hours tr {
+  border-bottom: 1px solid var(--line);
+}
+
+/* Der heutige Tag — Ockerlinie plus fetterer Schnitt, damit die Markierung
+   nicht allein an der Farbe haengt. */
+.hours tr[data-today] {
+  border-bottom-color: var(--accent);
+}
+
+.hours tr[data-today] th,
+.hours tr[data-today] td {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.hours tr[data-today] th::before {
+  content: "";
+  display: inline-block;
+  width: 0.6em;
+  height: 2px;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  background: var(--accent);
+}
+
+/* --- Leistungen ----------------------------------------------------------- */
+
+.service {
+  border-bottom: 1px solid var(--line);
+}
+
+.service__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  min-height: var(--tap-min);
+  padding-block: var(--space-s);
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.service__summary::-webkit-details-marker {
+  display: none;
+}
+
+.service__num {
+  font-family: var(--font-text);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  flex: none;
+}
+
+.service__chevron {
+  margin-left: auto;
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.service[open] .service__chevron {
+  transform: rotate(180deg);
+}
+
+.service__body {
+  padding-bottom: var(--space-m);
+  color: var(--ink-soft);
+}
+
+/* Sanftes Aufklappen, wo der Browser es kann — sonst springt es einfach auf. */
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .service::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition: block-size var(--dur) var(--ease-out),
+        content-visibility var(--dur) allow-discrete;
+    }
+
+    .service[open]::details-content {
+      block-size: auto;
+    }
+  }
+}
+
+/* --- Team ----------------------------------------------------------------- */
+
+.person__photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius);
+  /* Einheitlicher Farblook ueber alle Portraets hinweg. */
+  filter: grayscale(1) contrast(1.05);
+  transition: filter var(--dur-slow) var(--ease-out);
+}
+
+.person:hover .person__photo,
+.person:focus-within .person__photo {
+  filter: grayscale(0) contrast(1);
+}
+
+.person__name {
+  font-size: var(--text-md);
+  margin-top: var(--space-s);
+}
+
+.person__role {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+/* --- Notfall -------------------------------------------------------------- */
+
+.emergency {
+  background: var(--alert-bg);
+  color: var(--alert-fg);
+  /* Im Dark Mode liegen Flaeche und Seitengrund dicht beieinander — die
+     Linie macht die Kante trotzdem eindeutig. */
+  border-top: 1px solid color-mix(in oklab, var(--alert-fg) 22%, transparent);
+}
+
+.emergency .label,
+.emergency .status__detail {
+  color: var(--alert-fg-soft);
+}
+
+.emergency__number {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-s);
+  padding-block: var(--space-m);
+  border-bottom: 1px solid color-mix(in oklab, var(--alert-fg) 20%, transparent);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  text-decoration: none;
+  min-height: var(--tap-min);
+  /* Eine Notrufnummer darf nie umbrechen. */
+  white-space: nowrap;
+}
+
+.emergency__number span {
+  font-family: var(--font-text);
+  font-size: var(--text-sm);
+  color: var(--alert-fg-soft);
+  margin-left: auto;
+  text-align: right;
+  white-space: normal;
+}
+
+/* Auf schmalen Geraeten rutscht die Erlaeuterung unter die Nummer, statt
+   sie zu quetschen. */
+@media (max-width: 26rem) {
+  .emergency__number {
+    flex-wrap: wrap;
+    row-gap: var(--space-3xs);
+  }
+
+  .emergency__number span {
+    flex-basis: 100%;
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
+/* --- Formular ------------------------------------------------------------- */
+
+.field {
+  display: grid;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-m);
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.field input,
+.field textarea,
+.field select {
+  min-height: var(--tap-min);
+  padding: var(--space-xs) var(--space-s);
+  border: 1px solid var(--ink-soft);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+}
+
+.field textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.field__hint {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-s);
+  align-items: start;
+  padding: var(--space-m);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-2);
+  margin-bottom: var(--space-m);
+}
+
+.consent input[type="checkbox"] {
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-top: 0.2em;
+  accent-color: var(--brand);
+}
+
+.consent label {
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+/* --- Fussleiste „Anrufen" (nur mobil) ------------------------------------- */
+
+.callbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  padding: var(--space-2xs) var(--space-2xs)
+    calc(var(--space-2xs) + env(safe-area-inset-bottom));
+  background: color-mix(in oklab, var(--paper) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line);
+}
+
+.callbar .btn {
+  flex: 1;
+}
+
+body {
+  /* Platz, damit die Leiste nichts verdeckt. */
+  padding-bottom: calc(var(--tap-min) + var(--space-m));
+}
+
+@media (min-width: 56rem) {
+  .callbar {
+    display: none;
+  }
+  body {
+    padding-bottom: 0;
+  }
+}
+
+/* --- Fuss ----------------------------------------------------------------- */
+
+.footer {
+  padding-block: var(--space-xl);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+/* ==========================================================================
+   Bewegung
+   ========================================================================== */
+
+/* Gestaffeltes Einblenden. Ohne Unterstuetzung und ohne JS bleibt der Inhalt
+   einfach sichtbar — Animation darf nie Voraussetzung fuer Lesbarkeit sein. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 30%;
+    }
+  }
+
+  /* Fallback: die Klasse setzt erst das JavaScript. */
+  .reveal--js {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition: opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal--js.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Linie, die sich zeichnet. */
+  @supports (animation-timeline: view()) {
+    .rule-draw {
+      transform-origin: left;
+      animation: rule-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+  }
+
+  .parallax {
+    will-change: transform;
+  }
+
+  @supports (animation-timeline: view()) {
+    .parallax {
+      animation: parallax linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes parallax {
+  from {
+    transform: translateY(-1.5rem);
+  }
+  to {
+    transform: translateY(1.5rem);
+  }
+}
+
+/* Seitenwechsel */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  @view-transition {
+    navigation: none;
+  }
+}
+
+/* ==========================================================================
+   Druck
+   ========================================================================== */
+
+@media print {
+  .grain,
+  .callbar,
+  .header__nav {
+    display: none;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    padding-bottom: 0;
+  }
+
+  .section {
+    break-inside: avoid;
+  }
+}

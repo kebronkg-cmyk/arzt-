@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designsystem — Praxis Dres. Maasz</title>
+<meta name="description" content="Bausteine und Tokens des Redesigns „Editorial Medical".">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/site.js" defer></script>
+<style>
+  /* Nur fuer diese Musterseite, nicht Teil des Systems. */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--space-s); }
+  .swatch__chip { height: 4.5rem; border: 1px solid var(--line); border-radius: var(--radius); }
+  .swatch__name { font-size: var(--text-xs); margin-top: var(--space-2xs); font-variant-numeric: tabular-nums; }
+  .icons { display: grid; grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr)); gap: var(--space-m); }
+  .icons figure { text-align: center; }
+  .icons .icon { width: 2rem; height: 2rem; margin: 0 auto var(--space-2xs); color: var(--brand); }
+  .icons figcaption { font-size: var(--text-xs); color: var(--ink-soft); }
+  .specimen { border-bottom: 1px solid var(--line); padding-block: var(--space-s); }
+  .specimen small { display: block; font-size: var(--text-xs); color: var(--ink-soft); }
+  .note { border-left: 2px solid var(--accent); padding-left: var(--space-s); }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- icons:start -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+  <symbol id="i-phone" viewBox="0 0 24 24">
+    <path d="M6.5 3.5h3L11 7.5 9 9a12 12 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5Z"/>
+  </symbol>
+
+  <symbol id="i-fax" viewBox="0 0 24 24">
+    <path d="M7 9V3.5h10V9"/>
+    <path d="M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/>
+    <path d="M7 14h10v6.5H7z"/>
+  </symbol>
+
+  <symbol id="i-mail" viewBox="0 0 24 24">
+    <path d="M3.5 5.5h17v13h-17z"/>
+    <path d="m3.5 6.5 8.5 6 8.5-6"/>
+  </symbol>
+
+  <symbol id="i-pin" viewBox="0 0 24 24">
+    <path d="M12 21.5s7-5.8 7-11.5a7 7 0 1 0-14 0c0 5.7 7 11.5 7 11.5Z"/>
+    <circle cx="12" cy="10" r="2.5"/>
+  </symbol>
+
+  <symbol id="i-clock" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.5"/>
+    <path d="M12 6.5V12l3.5 2"/>
+  </symbol>
+
+  <symbol id="i-tram" viewBox="0 0 24 24">
+    <path d="M6.5 3.5h11a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z"/>
+    <path d="M4.5 9.5h15M12 3.5v-2M8 20.5l1.5-4M16 20.5l-1.5-4"/>
+    <path d="M9 13h.01M15 13h.01"/>
+  </symbol>
+
+  <symbol id="i-stethoscope" viewBox="0 0 24 24">
+    <path d="M5.5 2.5v6a4.5 4.5 0 0 0 9 0v-6"/>
+    <path d="M3.5 2.5h3M13.5 2.5h3"/>
+    <path d="M10 13v2a4.5 4.5 0 0 0 9 0v-1"/>
+    <circle cx="19" cy="11.5" r="2.5"/>
+  </symbol>
+
+  <symbol id="i-pulse" viewBox="0 0 24 24">
+    <path d="M2.5 12h4l2.5-6.5 4 13L15.5 12h6"/>
+  </symbol>
+
+  <symbol id="i-shield" viewBox="0 0 24 24">
+    <path d="m12 2.5 7 2.8V12c0 4.6-3 7.7-7 9.3-4-1.6-7-4.7-7-9.3V5.3l7-2.8Z"/>
+    <path d="m9 11.8 2.2 2.2L15.2 10"/>
+  </symbol>
+
+  <symbol id="i-document" viewBox="0 0 24 24">
+    <path d="M6 2.5h7l5 5v14H6z"/>
+    <path d="M13 2.5v5h5"/>
+    <path d="M9 13h6M9 16.5h6"/>
+  </symbol>
+
+  <symbol id="i-syringe" viewBox="0 0 24 24">
+    <path d="m14.5 3.5 6 6M17.5 6.5 9 15l-3.5.5.5-3.5 8.5-8.5"/>
+    <path d="m5.5 15.5-3 3M12 7l3 3M9.5 9.5l3 3"/>
+  </symbol>
+
+  <symbol id="i-chevron" viewBox="0 0 24 24">
+    <path d="m6 9.5 6 6 6-6"/>
+  </symbol>
+
+  <symbol id="i-arrow" viewBox="0 0 24 24">
+    <path d="M3.5 12h16M13 5.5l6.5 6.5-6.5 6.5"/>
+  </symbol>
+
+</svg>
+<!-- icons:end -->
+
+<header class="header">
+  <div class="shell header__inner">
+    <a class="header__mark" href="styleguide.html">Dres. Maasz</a>
+    <nav class="header__nav" aria-label="Hauptnavigation">
+      <a class="link" href="#farbe">Farbe</a>
+      <a class="link" href="#typografie">Typografie</a>
+      <a class="link" href="#symbole">Symbole</a>
+      <a class="link" href="#bausteine">Bausteine</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="shell">
+
+  <section class="hero">
+    <p class="label reveal">Designsystem · Editorial Medical</p>
+    <h1 class="hero__title reveal">Bausteine für eine <em>ruhige</em> Praxisseite.</h1>
+    <p class="lead reveal">Diese Seite zeigt Farben, Satz, Symbole und Bedienelemente
+      in ihrem tatsächlichen Zustand. Sie ist Werkzeug, nicht Inhalt.</p>
+    <p class="note reveal" style="margin-top:var(--space-m)">
+      <strong>Alle Texte und Zeiten hier sind Platzhalter.</strong> Kein Wert auf
+      dieser Seite stammt aus der Praxis — die echten Angaben kommen erst hinein,
+      wenn sie geprüft vorliegen.
+    </p>
+  </section>
+
+  <section class="section" id="farbe">
+    <div class="chapter"><span class="chapter__num">01</span><h2>Farbe</h2></div>
+    <p class="lead">OKLCH, Grundton Tintenblau. Jedes Paar aus Text und Fläche ist
+      gegen WCAG&nbsp;2.2&nbsp;AA gerechnet — nachprüfbar mit
+      <code>tools/palette-check.py</code>.</p>
+    <div class="swatches" style="margin-top:var(--space-l)">
+      <div class="swatch"><div class="swatch__chip" style="background:var(--paper)"></div><p class="swatch__name">--paper</p></div>
+      <div class="swatch"><div class="swatch__chip" style="background:var(--paper-2)"></div><p class="swatch__name">--paper-2</p></div>
+      <div class="swatch"><div class="swatch__chip" style="background:var(--ink)"></div><p class="swatch__name">--ink</p></div>
+      <div class="swatch"><div class="swatch__chip" style="background:var(--ink-soft)"></div><p class="swatch__name">--ink-soft</p></div>
+      <div class="swatch"><div class="swatch__chip" style="background:var(--brand)"></div><p class="swatch__name">--brand</p></div>
+      <div class="swatch"><div class="swatch__chip" style="background:var(--accent)"></div><p class="swatch__name">--accent</p></div>
+      <div class="swatch"><div class="swatch__chip" style="background:var(--line)"></div><p class="swatch__name">--line</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="typografie">
+    <div class="chapter"><span class="chapter__num">02</span><h2>Typografie</h2></div>
+    <div class="grid">
+      <div class="col-text">
+        <div class="specimen"><p style="font-family:var(--font-display);font-size:var(--text-3xl);line-height:var(--leading-tight)">Sprechstunde</p><small>Newsreader · --text-3xl</small></div>
+        <div class="specimen"><p style="font-family:var(--font-display);font-size:var(--text-xl);line-height:var(--leading-snug)">Hausärztliche Versorgung</p><small>Newsreader · --text-xl</small></div>
+        <div class="specimen"><p style="font-size:var(--text-md)">Größere Einleitung für den Einstieg in ein Kapitel.</p><small>Archivo · --text-md</small></div>
+        <div class="specimen prose"><p>Fließtext in 18&nbsp;px, Zeilenlänge auf 66 Zeichen begrenzt. Umlaute, ß, Maßeinheiten und <a href="#typografie">Verweise im Text</a> sind mitgeprüft.</p><small>Archivo · --text-base</small></div>
+        <div class="specimen"><p class="label">Marginalie in Archivo, Breite 85</p><small>--text-xs · font-stretch 85%</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="symbole">
+    <div class="chapter"><span class="chapter__num">03</span><h2>Symbole</h2></div>
+    <p class="lead">Dreizehn Zeichen auf 24er Raster, 1,5&nbsp;px Kontur. Keine Emojis.</p>
+    <div class="icons" style="margin-top:var(--space-l)">
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg><figcaption>phone</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-fax"></use></svg><figcaption>fax</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg><figcaption>mail</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg><figcaption>pin</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><figcaption>clock</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-tram"></use></svg><figcaption>tram</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-stethoscope"></use></svg><figcaption>stethoscope</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-pulse"></use></svg><figcaption>pulse</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg><figcaption>shield</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-document"></use></svg><figcaption>document</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-syringe"></use></svg><figcaption>syringe</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-chevron"></use></svg><figcaption>chevron</figcaption></figure>
+      <figure><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg><figcaption>arrow</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="section" id="bausteine">
+    <div class="chapter"><span class="chapter__num">04</span><h2>Status und Sprechzeiten</h2></div>
+    <p class="note">Platzhalterzeiten. Der Status rechnet live in <code>Europe/Berlin</code>
+      und liest ausschließlich die <code>&lt;time&gt;</code>-Elemente der Tabelle.</p>
+
+    <div class="grid" style="margin-top:var(--space-l)">
+      <div class="col-half">
+        <p class="status" data-status data-state="closed">
+          <span class="status__dot" aria-hidden="true"></span>
+          <span><span class="status__label" data-status-label>Sprechzeiten</span>
+          <span class="status__detail" data-status-detail>siehe nebenstehend</span></span>
+        </p>
+      </div>
+      <div class="col-half">
+        <table class="hours" data-hours>
+          <caption class="visually-hidden">Sprechzeiten (Platzhalter)</caption>
+          <tbody>
+            <tr data-day="1"><th scope="row">Montag</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time>, <time datetime="16:00">16:00</time>–<time datetime="19:00">19:00</time></td></tr>
+            <tr data-day="2"><th scope="row">Dienstag</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time>, <time datetime="16:00">16:00</time>–<time datetime="18:00">18:00</time></td></tr>
+            <tr data-day="3"><th scope="row">Mittwoch</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time></td></tr>
+            <tr data-day="4"><th scope="row">Donnerstag</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time>, <time datetime="16:00">16:00</time>–<time datetime="18:00">18:00</time></td></tr>
+            <tr data-day="5"><th scope="row">Freitag</th><td><time datetime="08:30">8:30</time>–<time datetime="12:00">12:00</time></td></tr>
+            <tr data-day="6"><th scope="row">Samstag</th><td>geschlossen</td></tr>
+            <tr data-day="0"><th scope="row">Sonntag</th><td>geschlossen</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="chapter"><span class="chapter__num">05</span><h2>Leistungen</h2></div>
+    <p class="note">Platzhaltertitel. Aufklappbar statt drei gleicher Karten.</p>
+    <div style="margin-top:var(--space-l)">
+      <details class="service">
+        <summary class="service__summary">
+          <span class="service__num">01</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-stethoscope"></use></svg>
+          Leistung A
+          <svg class="icon service__chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+        </summary>
+        <div class="service__body"><p>Beschreibungstext, der erst beim Aufklappen erscheint. Ohne JavaScript funktioniert das ebenso.</p></div>
+      </details>
+      <details class="service">
+        <summary class="service__summary">
+          <span class="service__num">02</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+          Leistung B
+          <svg class="icon service__chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+        </summary>
+        <div class="service__body"><p>Zweiter Platzhalter.</p></div>
+      </details>
+      <details class="service">
+        <summary class="service__summary">
+          <span class="service__num">03</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-pulse"></use></svg>
+          Leistung C
+          <svg class="icon service__chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+        </summary>
+        <div class="service__body"><p>Dritter Platzhalter.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="chapter"><span class="chapter__num">06</span><h2>Bedienelemente</h2></div>
+    <p style="display:flex;gap:var(--space-s);flex-wrap:wrap;margin-bottom:var(--space-l)">
+      <a class="btn" href="#bausteine"><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>Primär</a>
+      <a class="btn btn--ghost" href="#bausteine">Sekundär<svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+    </p>
+
+    <form class="grid" onsubmit="return false">
+      <div class="col-text">
+        <div class="field">
+          <label for="demo-name">Name</label>
+          <input id="demo-name" name="name" type="text" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="demo-msg">Nachricht</label>
+          <textarea id="demo-msg" name="nachricht"></textarea>
+          <p class="field__hint" id="demo-hint">Bitte keine Angaben zu Beschwerden oder Diagnosen.</p>
+        </div>
+        <div class="consent">
+          <input id="demo-consent" type="checkbox" required aria-describedby="demo-consent-text">
+          <label id="demo-consent-text" for="demo-consent">Muster einer Einwilligung nach Art.&nbsp;9 DSGVO.
+            Der endgültige Wortlaut wird erst festgelegt, wenn der Versandweg geklärt ist.</label>
+        </div>
+        <button class="btn" type="submit">Absenden</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<section class="section emergency">
+  <div class="shell">
+    <div class="chapter"><span class="chapter__num" style="color:var(--alert-fg-soft)">07</span><h2>Im Notfall</h2></div>
+    <p class="label">Darstellung — die Nummern stehen noch unter Vorbehalt der Prüfung</p>
+    <a class="emergency__number" href="tel:112"><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>112<span>Rettungsdienst</span></a>
+    <a class="emergency__number" href="tel:116117"><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>116 117<span>Ärztlicher Bereitschaftsdienst</span></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="shell">
+    <p>Musterseite des Designsystems. Keine Patienteninformation.</p>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="btn" href="#bausteine"><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>Anrufen</a>
+</div>
+
+</body>
+</html>
