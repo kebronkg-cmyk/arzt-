@@ -750,14 +750,23 @@ body {
    Bewegung
    ========================================================================== */
 
-/* Gestaffeltes Einblenden. Ohne Unterstuetzung und ohne JS bleibt der Inhalt
-   einfach sichtbar — Animation darf nie Voraussetzung fuer Lesbarkeit sein. */
+/* Gestaffeltes Einblenden.
+ *
+ * Sichtbar ist der Standard. Das Verstecken haengt an der Klasse .anim, die
+ * das Skript nur setzt, wenn die Seite ueberhaupt eine Scrollstrecke hat —
+ * ohne Scrollstrecke erreicht eine scroll-getriebene Animation ihr Ende nie
+ * und der Inhalt bliebe dauerhaft unsichtbar (auf sehr hohen Bildschirmen
+ * oder beim Erzeugen von Ganzseiten-Abbildungen real zu beobachten).
+ * Ohne JavaScript bleibt darum ebenfalls alles sichtbar. */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
-    .reveal {
+    :root.anim .reveal {
       animation: reveal-in linear both;
       animation-timeline: view();
-      animation-range: entry 8% cover 30%;
+      /* Endet, sobald das Element vollstaendig eingetreten ist. Alles, was
+         beim Laden schon im Bild steht, ist damit voll deckend — mit
+         "cover 30%" blieb der Aufmacher bei 0,86 haengen. */
+      animation-range: entry 10% entry 90%;
     }
   }
 
@@ -777,7 +786,7 @@ body {
 
   /* Linie, die sich zeichnet. */
   @supports (animation-timeline: view()) {
-    .rule-draw {
+    :root.anim .rule-draw {
       transform-origin: left;
       animation: rule-draw linear both;
       animation-timeline: view();
@@ -790,7 +799,7 @@ body {
   }
 
   @supports (animation-timeline: view()) {
-    .parallax {
+    :root.anim .parallax {
       animation: parallax linear both;
       animation-timeline: view();
       animation-range: cover;
@@ -858,8 +867,26 @@ body {
 @media print {
   .grain,
   .callbar,
-  .header__nav {
+  .header__nav,
+  .draft {
     display: none;
+  }
+
+  /* Im Druck wird nicht gescrollt — scroll-getriebene Animationen blieben
+     sonst auf ihrem Anfangswert stehen und halbe Seiten waeren leer. */
+  .reveal,
+  .reveal--js,
+  .rule-draw,
+  .parallax {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Adressen und Zeiten sollen auf Papier auffindbar bleiben. */
+  a[href^="tel:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
   }
 
   body {
@@ -871,4 +898,48 @@ body {
   .section {
     break-inside: avoid;
   }
+}
+
+/* ==========================================================================
+   Entwurfshinweis
+   ========================================================================== */
+
+/* Sichtbare Markierung fuer noch nicht bestaetigte Inhalte. Vor dem
+   Veroeffentlichen ersatzlos entfernen — samt aller .todo-Stellen. */
+.draft {
+  background: var(--accent);
+  /* --paper kippt im Dark Mode mit ins Dunkle — heller Text auf hellem
+     Ocker waere sonst unlesbar (2,15:1). */
+  color: var(--paper);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.draft__inner {
+  padding-block: var(--space-xs);
+}
+
+.draft strong {
+  font-weight: 700;
+}
+
+.todo {
+  display: inline-block;
+  padding: 0.1em 0.5em;
+  border: 1px dashed var(--accent);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.todo-block {
+  padding: var(--space-m);
+  border: 1px dashed var(--accent);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+}
+
+.todo-block > :first-child {
+  margin-bottom: var(--space-2xs);
 }

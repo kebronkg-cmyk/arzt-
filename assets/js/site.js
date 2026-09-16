@@ -179,17 +179,34 @@
 
   /* --- Einblenden: Fallback ---------------------------------------------- */
 
-  /* Nur noetig, wenn der Browser keine scroll-getriebenen Animationen kann.
-   * Die versteckende Klasse setzt das Skript selbst — ohne JavaScript bleibt
-   * darum alles sichtbar. */
-  function startReveals() {
-    /* Kein matchMedia: dann lieber gar nicht animieren. */
-    if (typeof window.matchMedia !== "function") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  /* Sichtbar ist der Standard; animiert wird nur, wenn es gefahrlos ist.
+   * Ohne JavaScript, ohne Scrollstrecke oder bei reduzierter Bewegung bleibt
+   * jeder Inhalt unverzueglich lesbar. */
+  function canAnimate() {
+    if (typeof window.matchMedia !== "function") return false;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+    /* Ohne Scrollstrecke erreicht eine scroll-getriebene Animation ihr Ende
+     * nie — der Inhalt bliebe unsichtbar. */
+    return document.documentElement.scrollHeight - window.innerHeight > 120;
+  }
 
+  function startReveals() {
+    var root = document.documentElement;
     var native = window.CSS && CSS.supports &&
       CSS.supports("animation-timeline", "view()");
-    if (native || !("IntersectionObserver" in window)) return;
+
+    if (native) {
+      var sync = function () {
+        root.classList.toggle("anim", canAnimate());
+      };
+      sync();
+      /* Wird das Fenster so gross, dass nicht mehr gescrollt werden kann,
+       * faellt die Animation wieder weg statt Inhalt zu verschlucken. */
+      window.addEventListener("resize", sync, { passive: true });
+      return;
+    }
+
+    if (!("IntersectionObserver" in window) || !canAnimate()) return;
 
     var targets = document.querySelectorAll(".reveal");
     if (!targets.length) return;
